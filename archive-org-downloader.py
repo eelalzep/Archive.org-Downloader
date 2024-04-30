@@ -33,9 +33,8 @@ def get_book_infos(session, url):
 	if len(links) > 1:
 		print(f"[+] Found {len(links)} pages")
 		return title, links, metadata
-	else:
-		print(f"[-] Error while getting image links")
-		exit()
+	print(f"[-] Error while getting image links")
+	exit()
 
 def format_data(content_type, fields):
 	data = ""
@@ -75,8 +74,7 @@ def loan(session, book_id, verbose=True):
 		if response.json()["error"] == "This book is not available to borrow at this time. Please try again later.":
 			print("This book doesn't need to be borrowed")
 			return session
-		else :
-			display_error(response, "Something went wrong when trying to borrow the book.")
+		display_error(response, "Something went wrong when trying to borrow the book.")
 
 	data['action'] = "create_token"
 	response = session.post("https://archive.org/services/loans/loan/", data=data)
@@ -85,8 +83,7 @@ def loan(session, book_id, verbose=True):
 		if verbose:
 			print("[+] Successful loan")
 		return session
-	else:
-		display_error(response, "Something went wrong when trying to borrow the book, maybe you can't borrow this book.")
+	display_error(response, "Something went wrong when trying to borrow the book, maybe you can't borrow this book.")
 
 def return_loan(session, book_id):
 	data = {
