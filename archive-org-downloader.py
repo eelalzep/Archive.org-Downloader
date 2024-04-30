@@ -14,7 +14,7 @@ def display_error(response, message):
 	print(message)
 	print(response)
 	print(response.text)
-	exit()
+	sys.exit()
 
 def get_book_infos(session, url):
 	r = session.get(url).text
@@ -35,7 +35,7 @@ def get_book_infos(session, url):
 		return title, links, metadata
 	else:
 		print(f"[-] Error while getting image links")
-		exit()
+		sys.exit()
 
 def format_data(content_type, fields):
 	data = ""
@@ -55,7 +55,7 @@ def login(email, password):
 	response = session.post("https://archive.org/account/login", data=data, headers=headers)
 	if "bad_login" in response.text:
 		print("[-] Invalid credentials!")
-		exit()
+		sys.exit()
 	elif "Successful login" in response.text:
 		print("[+] Successful login")
 		return session
@@ -186,7 +186,7 @@ if __name__ == "__main__":
 		d = os.getcwd()
 	elif not os.path.isdir(d):
 		print(f"Output directory does not exist!")
-		exit()
+		sys.exit()
 
 	if args.url is not None:
 		urls = args.url
@@ -196,13 +196,13 @@ if __name__ == "__main__":
 				urls = f.read().strip().split("\n")
 		else:
 			print(f"{args.file} does not exist!")
-			exit()
+			sys.exit()
 
 	# Check the urls format
 	for url in urls:
 		if not url.startswith("https://archive.org/details/"):
 			print(f"{url} --> Invalid url. URL must starts with \"https://archive.org/details/\"")
-			exit()
+			sys.exit()
 
 	print(f"{len(urls)} Book(s) to download")
 	session = login(email, password)
